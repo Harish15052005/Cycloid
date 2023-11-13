@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>TEST CANVAS</title>
+	<style type="text/css">
+		*
+		{
+			margin: 0;
+			padding: 0;
+			box-sizing:border-box;
+		}
+		.container
+		{
+			width: 100%;
+			height: 150px;
+			position: relative;
+		}
+		
+		.inputContainer
+		{
+			position: absolute;
+
+			font-size: 1.4rem;
+		}
+
+		.inputContainer.radiusContainer
+		{
+			top: 2rem;
+			left: 2rem;
+		}
+		.inputContainer.startingPointContainer
+		{
+			top: 2rem;
+			right: 2rem;
+		}
+
+		.inputContainer input
+		{
+			width: 5rem;
+			font-size: 1.4rem;
+			padding: 0.5rem;
+
+		}
+		#changeBtn
+		{
+			position: absolute;
+			bottom: .5rem;
+			right: 2rem;
+			font-size: 1.4rem;
+			padding: 0rem 1.2rem ;
+		}
+		#log
+		{
+			position: absolute;
+			bottom: .5rem;
+			left: 2rem;
+			font-size: 1.4rem;
+			padding: 0rem 1.2rem ;
+		}
+
+		canvas
+		{
+			border: 4px solid black;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="inputContainer radiusContainer">
+			<label class="radius_label"> Radius(px) </label>
+			<input type='text' id="radiusInput">
+		</div>
+
+		<div class="inputContainer startingPointContainer">
+			<label class="radius_label"> Starting Point(degrees) </label>
+			<input type='text' id="stratingPointInput">
+		</div>
+
+		<button id="changeBtn" onclick="changed = 1">Change</button>
+		<button onclick="logVars()" id="log">Log</button>
+		
+
+	</div>
+	<script type="text/javascript" src="p5.min.js"></script>
+	<script> 
+		// global variable
+		PI = Math.PI;
+		let radius=50;// radius of circle
+		let perimeter = 2*PI*radius;
+		let startPoint = 0;
+		let changed=0;// values of variables are changed; 0-> not changed ; 1-> changed 
+		let centerX=20+radius, centerY = 450-radius;
+
+		// utility functions
+		function getRadius(prevRadius) //  function get radius value from input field
+		{
+			let r = int(radiusInput.value) || 50;
+			if(isNaN(r)){
+				return prevRadius;
+			}else {
+				if(r >= 30)
+				{
+					return r;	
+				}else {
+					return prevRadius;
+				}
+			}
+		}
+
+		function getStartPoint(prevStartPoint) //  function get radius value from input field
+		{
+			let r = float(stratingPointInput.value) || 0;
+			if(isNaN(r)){
+				return prevStartPoint;
+			}else {
+				if(r >= 0 && r<=360)
+				{
+					return r;	
+				}else {
+					return prevStartPoint;
+				}
+			}
+		}
+
+		function changeVars() // to change values of variables
+		{
+			if(changed == 1)
+			{
+				radius = getRadius(radius);
+				perimeter = 2*PI*radius;
+				centerX = 20+radius; 
+				centerY = 450-radius;
+				startPoint = getStartPoint(startPoint);
+			}
+		}
+
+		function mouseCords()
+		{
+			text('x: '+ mouseX + ' y: '+ mouseY, mouseX, mouseY);
+		}
+
+		function makePoint(x,y,thickness,color)
+		{
+			c = color || 'black';
+			fill(c);
+			stroke(c);
+			circle(x,y,thickness);
+			fill('black');
+			stroke('black')
+		}
+
+		function drawAxises()
+		{
+			strokeWeight(4);
+			line(centerX, centerY, centerX+perimeter, centerY)//base line	
+			line(centerX, centerY+radius, centerX+perimeter, centerY+radius);
+
+			strokeWeight(1);
+		}
+
+		function logVars()
+		{
+			console.log("radius = "+radius);
+			console.log("centerX = "+centerX);
+			console.log("centerY = "+centerY);
+			console.log("perimeter = "+perimeter);
+			console.log("startPoint = "+startPoint);
+		}
+
+		function drawCycloid(cx, cy, r, strtPoint)
+		{
+			let single_len = (2*PI*r)/360; // length of single division of perimeter line
+			let diff = strtPoint || 0;
+			for(theta=0+diff;theta<=360+diff; theta++)
+			{
+				x = cx + r*cos(theta);
+				y = cy + r*sin(theta);
+
+				makePoint(x,y,5);
+
+				cx += single_len; 
+			}
+
+		}
+
+		// setupt function
+		function setup() {
+  			createCanvas(displayWidth-2, 500);
+  			angleMode(DEGREES);
+		}	
+
+
+		// draw function
+
+		function draw() {
+			background("white"); // clearing previous drawings
+
+
+			// restart function if variables are changed
+			if(changed == 1)
+			{
+				changeVars();
+				changed = 0;
+				return;
+			}
+
+			drawCycloid(centerX, centerY, radius,startPoint);
+
+
+			drawAxises();
+			noFill();
+			circle(centerX, centerY, radius*2);
+			circle(centerX+perimeter, centerY, radius*2)
+			// makePoint(centerX, centerY, 5);
+			// mouseCords();
+
+		}
+	</script>
+</body>
+</html>
