@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TEST CANVAS</title>
+	<title>Cycloid</title>
 	<style type="text/css">
 		*
 		{
@@ -212,8 +212,10 @@
 
 			drawAxises();
 			noFill();
+			strokeWeight(2);
 			circle(centerX, centerY, radius*2);
-			circle(centerX+perimeter, centerY, radius*2)
+			circle(centerX+perimeter, centerY, radius*2);
+			strokeWeight(1);
 			// makePoint(centerX, centerY, 5);
 			// mouseCords();
 
