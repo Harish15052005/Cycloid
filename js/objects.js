@@ -15,7 +15,8 @@ class CycloidCircle {
         this.draw();
         this.radius = radius;
         this.startDeg = startDeg;
-        this.Xpos = newPos;
+        this.Xpos = newPos.x;
+        this.Ypos = newPos.y;
     }
 }
 
@@ -55,12 +56,13 @@ class Cycloid {
         strokeWeight(2);
     }
 
-    update(radius, startDeg, endPt) {
+    update(radius, startDeg, endPt,newOrigin) {
         this.drawOriginCircle();
         this.draw();
         this.radius = radius;
         this.startDeg = degToRad(float(startDeg) - 90);
         this.offset = this.radius * cos(startDeg);
         this.endPt = endPt;
+        this.origin = newOrigin;
     }
 }
