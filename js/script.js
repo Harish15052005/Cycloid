@@ -1,4 +1,3 @@
-
 // GLOBAL VARIABLES
 let cycloid, cycloidCircle;
 let origin, noOfDivision = 200;
@@ -40,9 +39,9 @@ function draw() {
 
 
     // drawing objects
-    let newPos =  origin.x + ((perimeter/360)*endDeg);
-    cycloidCircle.update(radius, startDeg, origin.x+((perimeter/360)*endDeg));
-    cycloid.update(radius, startDeg, endDeg);
+    let newPos =  {x: origin.x + ((perimeter/360)*endDeg), y: origin.y};
+    cycloidCircle.update(radius, startDeg, newPos);
+    cycloid.update(radius, startDeg, endDeg,origin);
 }
 
 function updateSliderTexts(sliderElem, textElemId) {
@@ -52,7 +51,3 @@ function updateSliderTexts(sliderElem, textElemId) {
     endDeg = endDegSlider.value;
     perimeter =  2*PI*radius;
 }
-
-
-// TASKS
-// 2. make objects classes
